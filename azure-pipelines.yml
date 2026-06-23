@@ -20,7 +20,14 @@ steps:
   displayName: 'Install Node.js $(nodeVersion)'
 
 - script: |
-    npm ci
+  set -x
+  node --version
+  npm --version
+  ls -la
+  if [ -f package.json ]; then echo "package.json present"; else echo "package.json missing"; fi
+  if [ -f package-lock.json ]; then echo "package-lock.json present"; else echo "package-lock.json missing"; fi
+  npm cache verify || npm cache clean --force
+  npm ci --loglevel verbose
   displayName: 'Install Dependencies'
 
 - script: |
