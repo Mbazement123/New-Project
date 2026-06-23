@@ -18,7 +18,9 @@ steps:
   displayName: 'Install Node.js $(nodeVersion)'
 
 - script: |
-    npm config set cache $(Pipeline.Workspace)/.npm --global
+    mkdir -p "$(Pipeline.Workspace)/.npm"
+    npm config set cache "$(Pipeline.Workspace)/.npm" --global
+    echo "npm cache directory: $(Pipeline.Workspace)/.npm"
   displayName: 'Configure npm cache'
 
 - task: Cache@2
