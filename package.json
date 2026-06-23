@@ -1,0 +1,17 @@
+{
+  "name": "new-project",
+  "version": "1.0.0",
+  "description": "* **Organization URL:** [e.g., https://dev.azure.com/eohoimiracle]\r * **Project Name:** New Project\r * **Visibility:** Private (Access granted via direct evaluator user invite with Basic access level)\r * **Process Template:** Agile",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://eohoimiracle@dev.azure.com/eohoimiracle/New%20Project/_git/New%20Project"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
