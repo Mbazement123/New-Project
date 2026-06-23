@@ -1,20 +1,26 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Azure DevOps Project Deployment & Synchronization Report
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## 1. Organization & Project Setup
+* **Organization URL:** [e.g., https://dev.azure.com/eohoimiracle]
+* **Project Name:** New Project
+* **Visibility:** Private (Access granted via direct evaluator user invite with Basic access level)
+* **Process Template:** Agile
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+### Administration & Access Control
+* **Access Configuration:** To satisfy security practices and maintain project confidentiality, access control was established at the organization level. The evaluator was explicitly invited using their Microsoft ID and granted **Basic** access to guarantee visibility into source repositories and build pipeline outputs.
+* **Role Assignment:** Assigned the evaluator to the **Project Readers** group within the "New Project" workspace, overriding standard tenant restrictions to allow for seamless external grading.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+---
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## 2. Project Structure & Code Management
+The local codebase was initialized using Git and linked concurrently to two cloud remotes to achieve redundant hosting and comprehensive visibility across both platforms.
+
+### Remote Configurations
+* **Origin (Primary Git Host):** `https://dev.azure.com/eohoimiracle/New%20Project/_git/New%20Project`
+* **GitHub (Mirror Repository):** `https://github.com/Mbazement123/New-Project`
+
+### Repository Tree Layout
+```text
+├── .gitignore
+├── README.md                 <-- This Documentation Report
+├── azure-pipelines.yml       <-- CI/CD Build Orchestration Script
