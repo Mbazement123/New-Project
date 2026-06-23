@@ -1,10 +1,10 @@
 {
   "name": "new-project",
   "version": "1.0.0",
-  "description": "* **Organization URL:** [e.g., https://dev.azure.com/eohoimiracle]\r * **Project Name:** New Project\r * **Visibility:** Private (Access granted via direct evaluator user invite with Basic access level)\r * **Process Template:** Agile",
+  "description": "Azure DevOps Agile project sample with CI/CD and basic tests",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/index.test.js"
   },
   "repository": {
     "type": "git",

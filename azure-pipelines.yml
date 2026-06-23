@@ -42,6 +42,10 @@ steps:
   displayName: 'Install Dependencies'
 
 - script: |
+    npm test
+  displayName: 'Run Test Suite'
+
+- script: |
     npm run build --if-present
   displayName: 'Build Application in $(buildConfig) Mode'
 
