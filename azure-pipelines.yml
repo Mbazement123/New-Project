@@ -1,16 +1,45 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
   - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
+# 1. Pipeline-Specific Variables Declared Globally
+variables:
+  nodeVersion: '20.x'
+  buildConfig: 'Release'
+  artifactName: 'production-drop'
+  # You can also reference Variable Groups here (uncomment the line below if using Part 2)
+  # - group: 'project-global-settings'
+
 steps:
+# Use the defined variable using the $(variableName) syntax
+- task: NodeTool@0
+  inputs:
+    versionSpec: '$(nodeVersion)'
+  displayName: 'Install Node.js $(nodeVersion)'
+
 - script: |
-    echo "Validating code structure..."
-    ls -la
-  displayName: 'Lint and Verify Files'
+    npm ci
+  displayName: 'Install Dependencies'
+
+- script: |
+    npm run build --if-present
+  displayName: 'Build Application in $(buildConfig) Mode'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: |
+      dist/**
+      build/**
+      package.json
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Stage Files for Artifact'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '$(artifactName)'
+    publishLocation: 'Container'
+  displayName: 'Publish Artifact: $(artifactName)'
