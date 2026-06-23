@@ -4,30 +4,39 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-# 1. Pipeline-Specific Variables Declared Globally
 variables:
   nodeVersion: '20.x'
   buildConfig: 'Release'
   artifactName: 'production-drop'
-  # You can also reference Variable Groups here (uncomment the line below if using Part 2)
-  # - group: 'project-global-settings'
 
 steps:
-# Use the defined variable using the $(variableName) syntax
+- checkout: self
+
 - task: UseNode@1
   inputs:
     versionSpec: '$(nodeVersion)'
   displayName: 'Install Node.js $(nodeVersion)'
 
 - script: |
-  set -x
-  node --version
-  npm --version
-  ls -la
-  if [ -f package.json ]; then echo "package.json present"; else echo "package.json missing"; fi
-  if [ -f package-lock.json ]; then echo "package-lock.json present"; else echo "package-lock.json missing"; fi
-  npm cache verify || npm cache clean --force
-  npm ci --loglevel verbose
+    npm config set cache $(Pipeline.Workspace)/.npm --global
+  displayName: 'Configure npm cache'
+
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | package-lock.json'
+    restoreKeys: |
+      npm | "$(Agent.OS)"
+    path: $(Pipeline.Workspace)/.npm
+  displayName: 'Restore npm cache'
+
+- script: |
+    if [ -f package-lock.json ]; then
+      echo "Using npm ci (lockfile found)"
+      npm ci --prefer-offline --no-audit --loglevel verbose
+    else
+      echo "package-lock.json not found; falling back to npm install"
+      npm install --no-audit --loglevel verbose
+    fi
   displayName: 'Install Dependencies'
 
 - script: |
